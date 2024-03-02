@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Chat GPT Starter",
+    "version": "1.0.0",
+    "description": "A simple extension to get started talking to GPT.",
+    "permissions": ["activeTab", "tabs", "storage", "scripting"],
+    "content_scripts": [
+        {
+            "matches": ["*://*.openai.com/*", "*://*/.*"],
+            "js": ["index.js"]
+        }
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "action": {
+        "default_popup": "/popups/popup.html"
+    },
+    "options_page": "options/options.html",
+    "web_accessible_resources": [
+        {
+            "resources": ["options/options.html"],
+            "matches": ["<all_urls>"]
+        }
+    ]
+}
