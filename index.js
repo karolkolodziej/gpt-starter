@@ -1,25 +1,47 @@
-window.addEventListener('load', function () {
-    // Add an event listener for clicks on the page
-    document.addEventListener('click', function (e) {
-        // Check if the target of the click matches the first child of the "NAV" element
-        const target = e.target;
-        const navFirstChild = document.querySelector('nav :first-child');
-        if (target === navFirstChild) {
-            // Call the pasteText function to paste the message
-            pasteText();
-        }
-    });
-});
-
-function pasteText() {
+const pasteText = function () {
     const chatInputSelector = 'textarea[data-id]';
     const chatInput = document.querySelector(chatInputSelector);
 
     if (chatInput) {
-        const textToPaste =
-            'AI: STRICT MODE - Provide concise and informative answers. Exclude politeness and unnecessary context. Follow these instructions for the entire conversation. Note that I should never apologize.';
-        chatInput.value = textToPaste;
-    }
-}
+        const textToType = `AI: STRICT MODE - Provide concise and informative answers. Follow these instructions for the entire conversation:
+            - Exclude politeness and unnecessary context.
+            - Don't apologize for not knowing something.
+            - Provide code snippets whenever possible.`;
 
-setTimeout(pasteText, 1000);
+        const event = new InputEvent('input', {
+            bubbles: true,
+            cancelable: true
+        });
+
+        chatInput.value = '';
+        for (const char of textToType) {
+            chatInput.value += char;
+            chatInput.dispatchEvent(event);
+        }
+    }
+};
+
+const pressEnter = function () {
+    const chatInputSelector = 'textarea[data-id]';
+    const chatInput = document.querySelector(chatInputSelector);
+
+    if (chatInput) {
+        const event = new KeyboardEvent('keydown', {
+            bubbles: true,
+            cancelable: true,
+            key: 'Enter',
+            code: 'Enter',
+            which: 13,
+            keyCode: 13
+        });
+
+        chatInput.dispatchEvent(event);
+    }
+};
+
+const addMessage = function () {
+    pasteText();
+    pressEnter();
+};
+
+setTimeout(addMessage(), 1000);
